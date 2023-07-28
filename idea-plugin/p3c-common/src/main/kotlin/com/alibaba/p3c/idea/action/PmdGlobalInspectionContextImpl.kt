@@ -198,7 +198,7 @@ class PmdGlobalInspectionContextImpl(
                     dependentIndicators?.let {
                         it.remove(wrapper)
                     }
-                    Disposer.dispose(disposable)
+                    disposable.dispose()
                 }
             }
         } finally {

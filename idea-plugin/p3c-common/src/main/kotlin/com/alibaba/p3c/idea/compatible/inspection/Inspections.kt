@@ -19,7 +19,7 @@ import com.google.common.base.Splitter
 import com.intellij.codeInspection.ex.InspectionProfileImpl
 import com.intellij.codeInspection.ex.InspectionToolWrapper
 import com.intellij.codeInspection.ex.ScopeToolState
-import com.intellij.codeInspection.javaDoc.JavaDocLocalInspection
+import com.intellij.codeInspection.javaDoc.JavadocDeclarationInspection
 import com.intellij.openapi.project.Project
 
 /**
@@ -37,17 +37,17 @@ object Inspections {
     fun addCustomTag(project: Project, tag: String) {
         val profile = InspectionProfileService.getProjectInspectionProfile(project)
         val javaDocLocalInspection = profile.getInspectionTool("JavaDoc", project)?.tool
-                as? JavaDocLocalInspection ?: return
-        if (javaDocLocalInspection.myAdditionalJavadocTags.isEmpty()) {
-            javaDocLocalInspection.myAdditionalJavadocTags = tag
+                as? JavadocDeclarationInspection ?: return
+        if (javaDocLocalInspection.ADDITIONAL_TAGS.isEmpty()) {
+            javaDocLocalInspection.ADDITIONAL_TAGS  = tag
             return
         }
 
-        val tags = Splitter.on(',').splitToList(javaDocLocalInspection.myAdditionalJavadocTags)
+        val tags = Splitter.on(',').splitToList(javaDocLocalInspection.ADDITIONAL_TAGS)
         if (tags.contains(tag)) {
             return
         }
-        javaDocLocalInspection.myAdditionalJavadocTags += "," + tag
+        javaDocLocalInspection.ADDITIONAL_TAGS += "," + tag
         profile.profileChanged()
         profile.scopesChanged()
     }
