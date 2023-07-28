@@ -18,6 +18,7 @@ package com.alibaba.p3c.idea.config
 import com.intellij.openapi.components.PersistentStateComponent
 import com.intellij.openapi.components.State
 import com.intellij.openapi.components.Storage
+import com.intellij.openapi.components.service
 import com.intellij.util.xmlb.XmlSerializerUtil
 import java.util.Locale
 
@@ -27,7 +28,7 @@ import java.util.Locale
  * @author caikang
  * @date 2017/06/19
  */
-@State(name = "P3cConfig", storages = [Storage(file = "smartfox/p3c.xml")])
+@State(name = "P3cConfig", storages = [Storage("smartfox/p3c.xml")])
 class P3cConfig : PersistentStateComponent<P3cConfig> {
     var astCacheTime = 1000L
     var astCacheEnable = true
@@ -64,5 +65,8 @@ class P3cConfig : PersistentStateComponent<P3cConfig> {
     companion object {
         val localeEn = Locale.ENGLISH.language!!
         val localeZh = Locale.CHINESE.language!!
+
+        @JvmStatic
+        fun getInstance(): P3cConfig = service<P3cConfig>()
     }
 }

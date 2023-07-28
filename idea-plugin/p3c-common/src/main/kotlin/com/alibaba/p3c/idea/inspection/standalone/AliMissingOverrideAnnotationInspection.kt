@@ -65,9 +65,15 @@ class AliMissingOverrideAnnotationInspection : MissingOverrideAnnotationInspecti
     override fun createOptionsPanel(): JComponent? = null
 
     override fun buildFix(vararg infos: Any): InspectionGadgetsFix? {
-        val fix = super.buildFix(*infos) ?: return null
+        val fix : LocalQuickFix
+        try {
+            fix = super.buildFix(*infos) ?: return null
+        } catch (e: Exception){
+            return null;
+        }
         return DecorateInspectionGadgetsFix(fix,
-            P3cBundle.getMessage("com.alibaba.p3c.idea.quickfix.standalone.AliMissingOverrideAnnotationInspection"))
+            P3cBundle.getMessage("com.alibaba.p3c.idea.quickfix.standalone.AliMissingOverrideAnnotationInspection")
+        )
     }
 
     override fun manualBuildFix(psiElement: PsiElement, isOnTheFly: Boolean): LocalQuickFix? = buildFix(psiElement)
